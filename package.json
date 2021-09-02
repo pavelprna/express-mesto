@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/pavelprna/express-mesto/issues"
   },
-  "homepage": "https://github.com/pavelprna/express-mesto#readme"
+  "homepage": "https://github.com/pavelprna/express-mesto#readme",
+  "devDependencies": {
+    "eslint": "^7.32.0"
+  }
 }
