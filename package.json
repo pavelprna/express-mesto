@@ -5,7 +5,8 @@
   "private": "true",
   "scripts": {
     "lint": "npx eslint",
-    "start": "nodemon app.js"
+    "start": "node app",
+    "dev": "nodemon app"
   },
   "repository": {
     "type": "git",
