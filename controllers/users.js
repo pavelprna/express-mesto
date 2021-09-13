@@ -14,14 +14,29 @@ const getUser = (req, res) => {
 const createUser = (req, res) => {
   const { name, about, avatar } = req.body;
 
-
   User.create({ name, about, avatar })
     .then(user => res.send({ data: user }))
     .catch(() => res.status(500).send({message: 'Произошла ошибка при создании пользователя', body: req.body}))
 }
 
+const updateUser = (req, res) => {
+  const { name, about } = req.body;
+
+  User.updateOne({ _id: req.user._id}, { name, about })
+    .then(user => res.send({ data: user }));
+}
+
+const updateAvatar = (req, res) => {
+  const { link } = req.body;
+
+  User.updateOne({ _id: req.user._id}, { avatar: link })
+    .then(user => res.send({ data: user }));
+}
+
 module.exports = {
   getUsers,
   getUser,
-  createUser
+  createUser,
+  updateUser,
+  updateAvatar
 }
