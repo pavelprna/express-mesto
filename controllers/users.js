@@ -16,7 +16,7 @@ const createUser = (req, res) => {
 
   User.create({ name, about, avatar })
     .then(user => res.send({ data: user }))
-    .catch(() => res.status(500).send({message: 'Произошла ошибка при создании пользователя', body: req.body}))
+    .catch(() => res.status(500).send({ message: 'Произошла ошибка при создании пользователя', body: req.body }))
 }
 
 const updateUser = (req, res) => {

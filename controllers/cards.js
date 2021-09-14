@@ -17,13 +17,28 @@ const createCard = (req, res) => {
 }
 
 const deleteCard = (req, res) => {
-  const { cardId } = req.body;
-
-  Card.deleteOne({ _id: cardId })
+  Card.deleteOne({ _id: req.params.cardId })
+    .then(card => res.status(200).send(card))
 }
+
+const likeCard = (req, res) => Card.findByIdAndUpdate(
+  req.params.cardId,
+  { $addToSet: { likes: req.user._id} },
+  { new: true },
+)
+  .then(card => res.status(200).send(card))
+
+const dislikeCard = (req, res) => Card.findByIdAndUpdate(
+  req.params.cardId,
+  { $pull: { likes: req.user._id } },
+  { new: true },
+)
+  .then(card => res.status(200).send(card))
 
 module.exports = {
   getCards,
   createCard,
-  deleteCard
+  deleteCard,
+  likeCard,
+  dislikeCard
 }
