@@ -4,7 +4,7 @@
   "description": "Mesto Backend",
   "private": "true",
   "scripts": {
-    "lint": "npx eslint",
+    "lint": "npx eslint .",
     "start": "node app",
     "dev": "nodemon app"
   },
