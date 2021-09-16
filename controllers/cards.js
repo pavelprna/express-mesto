@@ -33,7 +33,11 @@ const deleteCard = (req, res) => {
         res.status(404).send({ message: 'Карточка с указанным _id не найдена' });
       }
     })
-    .catch(() => res.status(500).send({ message: 'Ошибка при удалении карточки' }));
+    .catch((error) => {
+      if (error.name === 'CastError') {
+        res.status(400).send({ message: 'Карточка с указанным _id не найдена' });
+      }
+    });
 }
 
 const likeCard = (req, res) => Card.findByIdAndUpdate(
@@ -41,28 +45,28 @@ const likeCard = (req, res) => Card.findByIdAndUpdate(
   { $addToSet: { likes: req.user._id } },
   { new: true },
 )
-.then(card => res.status(200).send(card))
-.catch((error) => {
-  if (error.name === "ValidationError") {
-    res.status(400).send({ message: 'Переданы некорректные данные для постановки лайка' })
-  } else {
-    res.status(500).send({ message: 'Ошибка при постановке лайка' })
-  }
-});
+  .then(card => res.status(200).send(card))
+  .catch((error) => {
+    if (error.name === 'CastError') {
+      res.status(400).send({ message: 'Карточка с указанным _id не найдена' })
+    } else {
+      res.status(500).send({ message: 'Ошибка при постановке лайка' })
+    }
+  });
 
 const dislikeCard = (req, res) => Card.findByIdAndUpdate(
   req.params.cardId,
   { $pull: { likes: req.user._id } },
   { new: true },
 )
-.then(card => res.status(200).send(card))
-.catch((error) => {
-  if (error.name === "ValidationError") {
-    res.status(400).send({ message: 'Переданы некорректные данные для снятия лайка' })
-  } else {
-    res.status(500).send({ message: 'Ошибка при снятии лайка' })
-  }
-});
+  .then(card => res.status(200).send(card))
+  .catch((error) => {
+    if (error.name === 'CastError') {
+      res.status(400).send({ message: 'Карточка с указанным _id не найдена' })
+    } else {
+      res.status(500).send({ message: 'Ошибка при снятии лайка' })
+    }
+  });
 
 module.exports = {
   getCards,
