@@ -35,7 +35,7 @@ const deleteCard = (req, res) => {
     })
     .catch((error) => {
       if (error.name === 'CastError') {
-        res.status(400).send({ message: 'Карточка с указанным _id не найдена' });
+        res.status(400).send({ message: 'Неверно указан _id карточки' });
       }
     });
 };
@@ -45,10 +45,16 @@ const likeCard = (req, res) => Card.findByIdAndUpdate(
   { $addToSet: { likes: req.user._id } },
   { new: true },
 )
-  .then((card) => res.status(200).send(card))
+  .then((card) => {
+    if (card) {
+      res.status(200).send(card);
+    } else {
+      res.status(404).send({ message: 'Карточка с указанным _id не найдена' });
+    }
+  })
   .catch((error) => {
     if (error.name === 'CastError') {
-      res.status(400).send({ message: 'Карточка с указанным _id не найдена' });
+      res.status(400).send({ message: 'Неверно указан _id карточки' });
     } else {
       res.status(500).send({ message: 'Ошибка при постановке лайка' });
     }
@@ -59,10 +65,16 @@ const dislikeCard = (req, res) => Card.findByIdAndUpdate(
   { $pull: { likes: req.user._id } },
   { new: true },
 )
-  .then((card) => res.status(200).send(card))
+  .then((card) => {
+    if (card) {
+      res.status(200).send(card);
+    } else {
+      res.status(404).send({ message: 'Карточка с указанным _id не найдена' });
+    }
+  })
   .catch((error) => {
     if (error.name === 'CastError') {
-      res.status(400).send({ message: 'Карточка с указанным _id не найдена' });
+      res.status(400).send({ message: 'Неверно указан _id карточки' });
     } else {
       res.status(500).send({ message: 'Ошибка при снятии лайка' });
     }

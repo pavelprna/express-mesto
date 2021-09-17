@@ -12,7 +12,7 @@ const getUser = (req, res) => {
       if (user) {
         res.status(200).send({ user });
       } else {
-        res.status(404).send({ message: 'Пользователь по указанному _id не найден' });
+        res.status(404).send({ message: 'Неверно указан _id пользователя' });
       }
     })
     .catch((error) => {
@@ -46,7 +46,7 @@ const updateUser = (req, res) => {
       if (user) {
         res.status(200).send({ user });
       } else {
-        res.status(404).send({ message: 'Пользователь с указанным _id не найден' });
+        res.status(404).send({ message: 'Неверно указан _id пользователя' });
       }
     })
     .catch((error) => {
