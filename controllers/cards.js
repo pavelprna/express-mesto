@@ -36,6 +36,8 @@ const deleteCard = (req, res) => {
     .catch((error) => {
       if (error.name === 'CastError') {
         res.status(400).send({ message: 'Неверно указан _id карточки' });
+      } else {
+        res.status(500).send({ message: 'Ошибка при удалении карточки' });
       }
     });
 };
