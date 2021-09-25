@@ -1,5 +1,6 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const User = require('../models/user');
 
 const login = (req, res) => {
@@ -55,9 +56,10 @@ const createUser = (req, res) => {
     name, about, avatar, email, password,
   } = req.body;
 
-  User.create({
-    name, about, avatar, email, password,
-  })
+  bcrypt.hash(password, 10)
+    .then((hash) => User.create({
+      name, about, avatar, email, password: hash,
+    }))
     .then((user) => res.status(200).send({ user }))
     .catch((error) => {
       if (error.name === 'ValidationError') {
@@ -109,6 +111,7 @@ const updateAvatar = (req, res) => {
 };
 
 module.exports = {
+  login,
   getUsers,
   getUser,
   createUser,
