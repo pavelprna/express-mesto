@@ -32,6 +32,11 @@ app.use('*', (req, res) => {
   res.status(404).send({ message: 'Ресурс не найден' });
 });
 
+app.use((err, req, res, next) => {
+  res.status(err.statusCode ? err.statusCode : 500).send({ message: err.message });
+});
+
 app.listen(PORT, () => {
+  // eslint-disable-next-line no-console
   console.log(`App listening on port ${PORT}`);
 });
