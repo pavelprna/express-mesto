@@ -28,7 +28,11 @@ const deleteCard = (req, res) => {
   Card.findByIdAndRemove({ _id: req.params.cardId })
     .then((card) => {
       if (card) {
-        res.status(200).send(card);
+        if (card.owner === req.user._id) {
+          res.status(200).send(card);
+        } else {
+          res.status(403).send({ message: 'Можно удалять только свои карточки' });
+        }
       } else {
         res.status(404).send({ message: 'Карточка с указанным _id не найдена' });
       }
