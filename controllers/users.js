@@ -22,6 +22,7 @@ const login = (req, res, next) => {
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
+        sameSite: true,
       })
         .end();
     })
@@ -89,7 +90,7 @@ const createUser = (req, res, next) => {
         if (error.name === 'ValidationError') {
           throw new BadRequerstError('Переданы некорректные данные при создании пользователя');
         } else if (error.code === 11000) {
-          throw new ConflictError(`Email ${email} уже зарегистрирован`);
+          throw new ConflictError(`email ${email} уже зарегистрирован`);
         } else {
           next(error);
         }

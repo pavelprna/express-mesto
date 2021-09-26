@@ -19,7 +19,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
     validate: {
-      validator: validator.isURL,
+      validator: (link) => {
+        /https?:\/\/w{0,3}.]?\.?[\w\W]*#?/ig.test(link);
+      },
       message: 'Неверный формат ссылки',
     },
   },
@@ -39,6 +41,7 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+// eslint-disable-next-line func-names
 userSchema.statics.findUserByCredentials = function (email, password) {
   return this.findOne({ email })
     .select('+password')
