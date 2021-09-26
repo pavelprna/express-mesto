@@ -51,6 +51,24 @@ const getUser = (req, res) => {
     });
 };
 
+const getCurrentUser = (req, res) => {
+  User.findById(req.user._id)
+    .then((user) => {
+      if (user) {
+        res.send({ user });
+      } else {
+        res.status(404).send({ message: 'Неверно указан _id пользователя' });
+      }
+    })
+    .catch((error) => {
+      if (error.name === 'CastError') {
+        res.status(400).send({ message: 'Пользователь по указанному _id не найден' });
+      } else {
+        res.status(500).send({ message: 'Произошла ошибка' });
+      }
+    });
+};
+
 const createUser = (req, res) => {
   const {
     name, about, avatar, email, password,
@@ -114,6 +132,7 @@ module.exports = {
   login,
   getUsers,
   getUser,
+  getCurrentUser,
   createUser,
   updateUser,
   updateAvatar,
