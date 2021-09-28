@@ -2,9 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const { errors } = require('celebrate');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
-const errors = require('./middlewares/errors');
+const error = require('./middlewares/error');
 
 const { PORT = 3000 } = process.env;
 
@@ -33,7 +34,8 @@ app.use('*', (req, res) => {
   res.status(404).send({ message: 'Ресурс не найден' });
 });
 
-app.use(errors);
+app.use(errors());
+app.use(error);
 
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console

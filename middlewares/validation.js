@@ -1,12 +1,14 @@
 const { Joi, celebrate } = require('celebrate');
 const validator = require('validator');
+const BadRequerstError = require('../errors/bad-request-error');
 
 const isUrlValidator = (link) => {
   const result = validator.isURL(link);
-  if (result) {
+  if (!result) {
+    throw new BadRequerstError('Неверный формат URL');
+  } else {
     return link;
   }
-  throw new Error('Неверный формат URL');
 };
 
 const createCardValidator = celebrate({
