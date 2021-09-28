@@ -32,7 +32,7 @@ const deleteCard = (req, res, next) => {
   Card.findByIdAndRemove({ _id: req.params.cardId })
     .then((card) => {
       if (card) {
-        if (card.owner === req.user._id) {
+        if (card.owner.toString() === req.user._id) {
           res.send(card);
         } else {
           throw new ForbiddenError('Можно удалять только свои карточки');

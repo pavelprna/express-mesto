@@ -120,9 +120,9 @@ const updateUser = (req, res, next) => {
 };
 
 const updateAvatar = (req, res, next) => {
-  const { link } = req.body;
+  const { avatar } = req.body;
 
-  User.findByIdAndUpdate({ _id: req.user._id }, { avatar: link })
+  User.findByIdAndUpdate({ _id: req.user._id }, { avatar })
     .then((user) => {
       if (user) {
         res.send({ user });
