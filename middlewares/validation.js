@@ -28,6 +28,7 @@ const userValidator = celebrate({
   body: Joi.object().keys({
     email: Joi.string().email().required(),
     password: Joi.string().min(4).required(),
+    avatar: Joi.string().custom(isUrlValidator),
   }),
 });
 
